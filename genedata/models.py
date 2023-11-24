@@ -45,6 +45,3 @@ class Attribute(models.Model):
 class GeneAttributeLink(models.Model):
     gene = models.ForeignKey(Gene, on_delete=models.DO_NOTHING) 
     attribute = models.ForeignKey(Attribute, on_delete=models.DO_NOTHING)    
-
-    def __str__(self):
-        return self.key + " " + self.value
