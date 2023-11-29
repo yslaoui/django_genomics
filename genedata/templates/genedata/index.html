@@ -1,0 +1,15 @@
+<html>
+    <head></head>
+        <body>
+            <h1> D. Bucheria genes list </h1>
+            <table>
+                <th> gene list </th>
+                {% for gene in genes  %}
+                    <tr> <td> <a href="/gene/{{gene.id}}"> {{gene}} </a>  </td> </tr>
+                {% endfor %}
+                 
+            </table>
+        
+        </body>
+    
+</html>
