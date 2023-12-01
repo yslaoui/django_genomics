@@ -20,8 +20,10 @@ class Gene(models.Model):
     start = models.IntegerField(null=False, blank=True)
     stop = models.IntegerField(null=False, blank=True)
     start_codon = models.CharField(max_length=1, default='M')
+    access = models.IntegerField(null=False, blank = True, default=0)
     sequencing = models.ForeignKey(Sequencing, on_delete=models.DO_NOTHING)
     ec = models.ForeignKey(Ec, on_delete=models.DO_NOTHING)
+    
 
     def __str__(self) :
         return self.gene_id

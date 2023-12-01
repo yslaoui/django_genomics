@@ -8,7 +8,24 @@
                 <tr><td> Start </td><td> {{gene.start}} </td> </tr>
                 <tr><td> Stop </td><td> {{gene.stop}} </td> </tr>
                 <tr><td> Codon </td><td> {{gene.start_codon}} </td> </tr>
+                {% with seq=gene.sequencing %}
+                <tr><td> Sequencing Factory</td><td>{{seq.factory}}</td></tr>     
+                <tr><td> Sequencing Location</td><td>{{seq.location}}</td></tr>                
+                {% endwith %}
+                
+                {% with ec=gene.ec %}
+                <tr><td> ec name  </td><td> {{ec.ec_name}} </td> </tr>                
+                {% endwith %}
+
+                {% with links=gene.geneattributelink_set.all%}
+                    {% for link in links  %}
+                        <tr><td> {{link.attribute.key}} </td><td>{{link.attribute.value}}</td></tr>                
+                    {% endfor %}
+                {% endwith %}
             </table>
+            <br>
+            <br>
+            <a href="/delete/{{gene.pk}}"> DELETE GENE </a>
         </body>
     
 </html>

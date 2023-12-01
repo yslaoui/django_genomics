@@ -122,4 +122,3 @@ for gene_id, data in attributes.items():
         row.gene.add(gene_rows[gene_id])
         row.save()
 
-

@@ -1,15 +1,16 @@
-<html>
-    <head></head>
-        <body>
-            <h1> D. Bucheria genes list </h1>
+{% extends "genedata/base.html" %}
+
+{% block content %}
             <table>
                 <th> gene list </th>
                 {% for gene in genes  %}
                     <tr> <td> <a href="/gene/{{gene.id}}"> {{gene}} </a>  </td> </tr>
-                {% endfor %}
-                 
+                {% endfor %}                 
             </table>
-        
-        </body>
-    
-</html>
+            <h2> Select gene location </h2>    
+            <a href="list/Chromosome"> Chromosome </a> OR <a href="list/Plasmid"> Plasmid </a>  
+            <br>
+            <br>
+            <a href = "/poslist"> Show positive list </a>
+
+{% endblock content %}
