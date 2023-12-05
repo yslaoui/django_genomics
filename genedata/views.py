@@ -21,8 +21,6 @@ def gene(request, pk):
                   'genedata/gene.html', 
                   {'gene': gene, 'master_genes': master_genes})
 
-
-
 def list(request, type):
     print('the type is ' + type)
     genes = Gene.objects.filter(entity__exact=type)
@@ -55,9 +53,28 @@ def create_ec(request):
             ec.ec_name = form.cleaned_data['ec_name']
             ec.save()
             return HttpResponseRedirect("/create_ec")
+        else:
+            form = EcForm()
+            ecs = Ec.objects.all()
+            print("EC is not valid")
+            return render(request, 'genedata/create_ec.html', {'error': 'failed', 'ecs': ecs, 'master_genes': master_genes, 'form': form})
+ 
     else:
         ecs = Ec.objects.all()
         form = EcForm()
-        return render(request, 'genedata/ec.html', {'ecs': ecs, 'master_genes': master_genes, 'form': form})
+        return render(request, 'genedata/create_ec.html', {'ecs': ecs, 'master_genes': master_genes, 'form': form})
+
+def create_gene(request):
+    master_genes = Gene.objects.all()
+    if request.method == 'POST':
+        form = GeneForm(request.POST)
+        if form.is_valid():
+            gene = form.save() 
+            return HttpResponseRedirect("/create_gene")
+        else:
+            return render(request, 'genedata/create_gene.html', {'error': 'failed',  'master_genes': master_genes, 'form': form})
+    else:
+        form = GeneForm()
+        return render(request, 'genedata/create_gene.html', {'master_genes': master_genes, 'form': form})
 
 
