@@ -1,12 +1,13 @@
-<html>
-    <head></head>
-        <body>
-            <h1> Filtered list: {{type}} </h1>
-            <table>
-                <th> gene list </th>
-                {% for gene in genes  %}
-                    <tr> <td> {{gene}} </td> </tr>
-                {% endfor %}                 
-            </table>
-        </body>    
-</html>
+
+
+{% extends "genedata/base.html" %}
+{% block content %}
+    <h1> Filtered list: {{type}} </h1>
+    <table>
+        <div class="flex-"></div>
+        <th> gene list </th>
+        {% for gene in genes  %}
+            <tr> <td> {{gene}} </td> </tr>
+        {% endfor %}                 
+    </table>
+{% endblock content %}

@@ -1,16 +1,13 @@
 {% extends "genedata/base.html" %}
 
 {% block content %}
-            <table>
-                <th> gene list </th>
-                {% for gene in genes  %}
-                    <tr> <td> <a href="/gene/{{gene.id}}"> {{gene}} </a>  </td> </tr>
-                {% endfor %}                 
-            </table>
             <h2> Select gene location </h2>    
             <a href="list/Chromosome"> Chromosome </a> OR <a href="list/Plasmid"> Plasmid </a>  
             <br>
             <br>
             <a href = "/poslist"> Show positive list </a>
-
+            <br>
+            <br>
+            <a href="/create_ec"> Add EC Entry </a>
 {% endblock content %}
+   

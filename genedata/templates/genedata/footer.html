@@ -1,7 +1,17 @@
 {% load my_tags %}
-<div id="footer">
-    <hr>
-    <p>Author: Cabrero. Date: {%todays_date%}.</p>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div id="footer" class="col-sm-12">
+            <hr>
+            <p>Author: {% authors_name%}. </p> 
+            
+            <p >Date: {%todays_date%}.</p>
+            <p> Number of genes in the database: {% gene_count %}.  </p>
+        </div>        
+    </div>
+
 </div>
 </body>
 </html>

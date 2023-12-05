@@ -1,0 +1,58 @@
+body {
+    font-family: sans-serif;
+    
+}
+
+#application_title {
+    display: inline;
+    vertical-align: middle;
+}
+
+#logo {
+    height: 50px;
+    width: 50px;
+    vertical-align: middle;
+}
+
+#header {
+    width: 100%;
+    background-color: lightgreen;
+}
+
+#navigation {
+    width: 100%;
+    background-color: blue;
+    color: white;
+    padding: 2px;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+.nav_link {
+    color: white
+}
+
+.navbar {
+    padding: 0px;
+}
+
+.content {
+    padding-left: 20px;
+    float: left;
+}
+
+#gene_list{
+    float: left;
+    border-right: 2px dashed black;
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+#footer {
+    width: 100%;
+    background-color: lightblue;
+    float: left;
+}
