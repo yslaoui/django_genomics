@@ -1,0 +1,14 @@
+{% extends "genedata/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<form method="POST">
+    <h2> Update  {{object}} </h2>
+    <br>    
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="UPDATE">
+</form>
+{% endblock content %}
+
+

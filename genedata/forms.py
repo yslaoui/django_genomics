@@ -13,9 +13,10 @@ class EcForm(forms.Form):
 class GeneForm(forms.ModelForm):
     class Meta:
         model = Gene
-        fields = ['entity', 'source', 
-                  'start', 'stop', 
-                  'start_codon', 'sequencing', 'ec']
+        fields = ['gene_id', 'entity', 
+                  'source', 'start', 
+                  'stop', 'start_codon', 
+                  'sequencing', 'ec']
 
     def clean(self):
         cleaned_data = super(GeneForm, self).clean()
