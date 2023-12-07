@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'bootstrap4',
     'genedata.apps.GenedataConfig',
     'django.contrib.admin',
