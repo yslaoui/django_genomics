@@ -13,8 +13,8 @@ class ECSerializer(serializers.ModelSerializer):
 
 
 class GeneSerializer(serializers.ModelSerializer):
-   ec = ECSerializer()
-   sequencing = SequencingSerializer()
+   ec = ECSerializer(read_only=True)
+   sequencing = SequencingSerializer(read_only=True)
    class Meta:
        model = Gene
        fields = ['gene_id', 'entity',
