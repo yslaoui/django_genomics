@@ -14,6 +14,13 @@ from .serializers import *
 
 @api_view(['GET', 'POST'])
 def gene_detail(request, pk):
+    if request.method == 'POST':
+        serializer = GeneSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     try: 
         gene= Gene.objects.get(pk=pk)
     except Gene.DoesNotExist:
@@ -21,10 +28,7 @@ def gene_detail(request, pk):
     if request.method == 'GET':
         serializer = GeneSerializer(gene)
         return Response(serializer.data)
-    if request.method == 'POST':
-        print(request.data)
-        serializer = GeneSerializer(gene)
-        return Response(serializer.data)
+
 
 @api_view(['GET'])
 def genes_list(request):

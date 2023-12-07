@@ -20,5 +20,15 @@ class GeneSerializer(serializers.ModelSerializer):
        fields = ['gene_id', 'entity',
                  'source', 'start',
                  'stop', 'start_codon',
-                 'sequencing', 'ec']
-       
+                 'sequencing', 'ec']    
+    
+   def create(self, validated_data):
+       ec_data = self.initial_data["ec"]
+       seq_data = self.initial_data["sequencing"] 
+       gene = Gene(**{**validated_data, 
+                      'ec': Ec.objects.get(pk=ec_data['id']), 
+                      'sequencing': Sequencing.objects.get(pk=seq_data['id'])
+                      })
+       gene.save()
+       return gene
+   
