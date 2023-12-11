@@ -1,4 +1,7 @@
 import factory
+from random import randint
+from random import choice
+
 
 from .models import *
 
@@ -15,12 +18,12 @@ class SequencingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Sequencing
 
-
 class GeneFactory(factory.django.DjangoModelFactory):
-    gene_id = 'geneX'
-    entity = 'Plasmid'
+    gene_id = factory.Sequence(lambda n: 'gene%d'%(n+1))
+    entity = choice(['Plasmid', 'Chromosome'])
     source = 'nothing'
-    start = 12
+    start = randint(1, 10000)
+    stop = start + randint(1, 10000)
     stop = 45
     start_codon = 'U'
     ec = factory.SubFactory(ECFactory)
@@ -28,6 +31,21 @@ class GeneFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Gene
+
+
+
+# class GeneFactory(factory.django.DjangoModelFactory):
+#     gene_id = 'geneX'
+#     entity = 'Plasmid'
+#     source = 'nothing'
+#     start = 12
+#     stop = 45
+#     start_codon = 'U'
+#     ec = factory.SubFactory(ECFactory)
+#     sequencing = factory.SubFactory(SequencingFactory)
+
+#     class Meta:
+#         model = Gene
 
 
 

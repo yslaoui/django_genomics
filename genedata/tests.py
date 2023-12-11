@@ -11,6 +11,10 @@ from rest_framework.test import APITestCase
 from .model_factories import *
 from .serializers import *
 
+from random import randint
+from random import choice
+
+
 class GeneTest(APITestCase):
     gene1 = None
     gene2 = None
@@ -39,10 +43,10 @@ class GeneTest(APITestCase):
     def test_geneDetailReturnSuccess(self):
         response = self.client.get(self.good_url, format='json')
         self.assertEqual(response.status_code, 200) 
-
         data = json.loads(response.content)
         self.assertTrue('entity' in data)
-        self.assertEqual(data['entity'], 'Plasmid')
+        self.assertEqual(data['entity'], self.gene1.entity)
+        print(data['gene_id'])
 
         
         
@@ -55,13 +59,69 @@ class GeneTest(APITestCase):
         self.assertEqual(response.status_code, 204)
 
 
-# Q. #todo Now we want to test that deleting records works.
-# At the top of the class, create an empty delete_url string,
-# Add a new gene 3 
-# and add a URL for deleting it.The url has the same name as for 
-# getting data from /api/gene/id, just change the pk in the kwargs 
-# Next create a test for geneDetailDeletion. 
-# Make the client delete the record. Remember that in the API file
-#  when we have a successful delete, the status code was 204. 
-# Assert that in your test
+class GeneSerializeTest(APITestCase):
+    gene1 = None
+    serializer = None
 
+    def setUp(self):
+        self.gene1 = GeneFactory.create(pk=1, gene_id="gene1") 
+        self.serializer = GeneSerializer(self.gene1)
+
+    def tearDown(self):
+        Ec.objects.all().delete()
+        Sequencing.objects.all().delete()
+        Gene.objects.all().delete()
+        ECFactory.reset_sequence(0)
+        SequencingFactory.reset_sequence(0)
+        GeneFactory.reset_sequence(0)
+
+    def test_geneserializer(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), set(['gene_id', 'entity','source', 
+                                                'start', 'stop', 'start_codon', 
+                                                 'sequencing', 'ec']))
+
+    def test_serializerGeneIDhasCorrectData(self):
+        data = self.serializer.data
+        self.assertEqual(data['gene_id'], 'gene1')
+
+
+class GeneListTest(APITestCase):
+    good_url = None
+
+    def setUp(self):
+        self.good_url = reverse('gene_list_api')
+        self.gene1 = GeneFactory.create() 
+        self.gene2 = GeneFactory.create() 
+
+    def tearDown(self):
+        Ec.objects.all().delete()
+        Sequencing.objects.all().delete()
+        Gene.objects.all().delete()
+        ECFactory.reset_sequence(0)
+        SequencingFactory.reset_sequence(0)
+        GeneFactory.reset_sequence(0)
+
+    def test_geneListReturnSuccess(self):
+        response = self.client.get(self.good_url)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        print("data is", data)
+        self.assertEqual(data[0]['entity'], self.gene1.entity)
+        self.assertEqual(data[1]['gene_id'], 'gene2')
+        self.assertEqual(len(data), 2)
+        self.assertEqual(data[0]['sequencing']['factory'], 'Sanger')
+        
+
+
+
+
+
+
+    # def test_geneDetailReturnSuccess(self):
+    #     response = self.client.get(self.good_url, format='json')
+    #     self.assertEqual(response.status_code, 200) 
+    #     data = json.loads(response.content)
+    #     self.assertTrue('entity' in data)
+    #     self.assertEqual(data['entity'], self.gene1.entity)
+    #     print(data['gene_id'])
