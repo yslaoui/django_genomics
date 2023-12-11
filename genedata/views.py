@@ -130,3 +130,5 @@ def create_ec(request):
         return render(request, 'genedata/create_ec.html', {'ecs': ecs, 'master_genes': master_genes, 'form': form})
 
 
+def spa(request):
+    return render(request, 'genedata/spa.html')
