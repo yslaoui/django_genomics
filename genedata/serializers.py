@@ -17,7 +17,7 @@ class GeneSerializer(serializers.ModelSerializer):
    sequencing = SequencingSerializer(read_only=True)
    class Meta:
        model = Gene
-       fields = ['gene_id', 'entity',
+       fields = [ 'id', 'gene_id', 'entity',
                  'source', 'start',
                  'stop', 'start_codon',
                  'sequencing', 'ec']    
