@@ -19,8 +19,6 @@ from genedata.models import *
 import logging
 logger = logging.getLogger(__name__)
 
-
-
 # Define path to data
 data_file = '/home/quantumleap/Documents/git/uol/course/4_Level6S1/django/projects/topic2/bioweb/data.csv'
 
@@ -54,9 +52,9 @@ with open(data_file) as csv_file:
 #     print(elem)
 # for elem in product_pairs:
 #     print(elem)
-# print(genes)
+print(genes)
 # print(products)
-print(attributes)
+# print(attributes)
 
 
 # Deleting data from database -- allows you to run the script as many time as you want without duplicating insertions
@@ -118,7 +116,7 @@ for gene_id, data in products.items():
 
 for gene_id, data in attributes.items():
     for key in data.keys():
-        row = Attribute.objects.create(key = key,                                        value=data[key])
+        row = Attribute.objects.create(key = key, value=data[key])
         row.gene.add(gene_rows[gene_id])
         row.save()
 

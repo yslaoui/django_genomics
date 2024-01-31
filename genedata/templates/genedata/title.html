@@ -11,7 +11,13 @@
             <li class="nav-item-active"><a class="nav_link" href="/">Home&nbsp;</a></li>
             <li class="nav-item-active"><a class="nav_link" href="https://www.ebi.ac.uk">EBI&nbsp;</a></li>
             <li class="nav-item-active"><a class="nav_link" href="https://www.uniport.org">Uniport&nbsp;</a></li>
-
+            {% if user.is_authenticated%}
+                <li class="nav-item-active">Hello {{user.username}}</a></li>
+                <li class="nav-item-active"><a class="nav_link" href="../logout/">Logout&nbsp;</a></li>
+                {%else %}        
+                <li class="nav-item-active"><a class="nav_link" href="/register">Register&nbsp;</a></li>
+                <li class="nav-item-active"><a class="nav_link" href="/login">Login&nbsp;</a></li>
+            {% endif %}
         </ul>
     </div>
 </nav>

@@ -16,5 +16,10 @@ urlpatterns = [
     path('api/ecs', api.EcList.as_view(), name='ec_list_api'), 
     path('api/ec/<int:pk>', api.EcDetail.as_view(), name='ec_detail_api'),
     path('api/list/<str:type>', api.GeneListType.as_view(), name='ec_detail_api'),
-    path('app/', views.spa, name = "spa")
+    path('app/', views.spa, name = "spa"), 
+    path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='user_login'),
+    path('logout/', views.user_logout, name='user_logout')
+
+
 ]

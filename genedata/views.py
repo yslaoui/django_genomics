@@ -1,17 +1,74 @@
 from typing import Any, Dict, List
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
+from django.contrib.auth import authenticate, login, logout
+
 
 from .models import *
 from .forms import *
 
 # Create your views here.
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('../')
+
+def register(request):
+    master_genes = Gene.objects.all()
+    registered = False
+    if request.method == 'POST':
+        # Create form instances and pass them request data as argument
+        user_form = UserForm(data = request.POST)
+        profile_form = UserProfileForm(data = request.POST)
+        # Check that user input data is valid
+        if user_form.is_valid() and profile_form.is_valid():
+            # If forms are valid, create a corresponding model instance for them
+            user = user_form.save(commit=False)  # create a new user model instance. commit=False ensures that the new user is not saved in the database yet, because we still need to hash the password
+            user.set_password(user.password) # hash the password
+            user.save() # now in the database and model, the hashed password is saved and commited to the database
+
+            # create an instance of the AppUser model from the form. Assign the user model instance to the Appuser attribute. Add the organisation field if it has been provided bty the user
+            profile = profile_form.save(commit = False)
+            profile.user = user
+            if 'organization' in user_form.data:
+                profile.organization = request.POST['organization']
+            profile.save()
+        else:
+            print(user_form.errors, profile_form.errors)
+
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'genedata/register.html', {'user_form' : user_form, 
+                                                      'profile_form' : profile_form,
+                                                      'registered' : registered, 
+                                                      'master_genes': master_genes})
+def user_login(request):
+    master_genes = Gene.objects.all()
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['username']
+
+        # Check the credentials against the database. If Ok, returns the user model instance. Otherwise return None
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+               login(request, user)  
+               return HttpResponseRedirect('../')
+            else:
+                return HttpResponse("Your account is disabled") 
+        else:
+            return HttpResponse("Invalid login details supplied")
+    else:
+        return render(request, 'genedata/login.html', {'master_genes': master_genes} )        
+
 
 class GeneList(ListView):
     model = Gene
@@ -73,8 +130,6 @@ class GeneCreate(CreateView):
 
 class GeneDelete(DeleteView):
     model = Gene
-    success_url = '/'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['master_genes'] = Gene.objects.all()
