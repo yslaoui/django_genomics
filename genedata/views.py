@@ -1,5 +1,5 @@
 from typing import Any, Dict, List
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views.generic import ListView
@@ -9,11 +9,38 @@ from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .models import *
 from .forms import *
 
 # Create your views here.
+
+
+def user_changePassword(request):
+    master_genes = Gene.objects.all()
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        if user: 
+            print(f"user{user} is connected")
+            newPassword1 = request.POST["newPassword1"]
+            newPassword2 = request.POST["newPassword2"]
+            if newPassword1 == newPassword2:
+               print("the two passwords are the same")
+               user.set_password(newPassword1)
+               user.save()
+               messages.success(request, "Your password was successfully changed")
+               return HttpResponseRedirect('../login/')
+            else:
+                print("passwords entered do not match")
+                return HttpResponse("The paswwords you entered do not match")
+        else:
+            print("Invalid username / password")
+            return HttpResponse("Invalid username / password")   
+    else:
+        return render(request, 'genedata/changePassword.html', {'master_genes': master_genes})
 
 def some_view(request):
     if not request.user.is_authenticated:
@@ -61,11 +88,12 @@ def user_login(request):
     master_genes = Gene.objects.all()
     if request.method == 'POST':
         username = request.POST['username']
-        password = request.POST['username']
-
+        password = request.POST['password']
         # Check the credentials against the database. If Ok, returns the user model instance. Otherwise return None
         user = authenticate(username=username, password=password)
+        print(user)
         if user:
+            print(user.is_active)
             if user.is_active:
                login(request, user)  
                return HttpResponseRedirect('../')

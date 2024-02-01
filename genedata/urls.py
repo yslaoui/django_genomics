@@ -21,5 +21,6 @@ urlpatterns = [
     path('app/', views.spa, name = "spa"), 
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='user_login'),
-    path('logout/', views.user_logout, name='user_logout')
+    path('logout/', views.user_logout, name='user_logout'), 
+    path('changePassword/', views.user_changePassword, name='user_changePassword')
 ]

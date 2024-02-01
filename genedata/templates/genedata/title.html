@@ -14,7 +14,8 @@
             {% if user.is_authenticated%}
                 <li class="nav-item-active">Hello {{user.username}}</a></li>
                 <li class="nav-item-active"><a class="nav_link" href="../logout/">Logout&nbsp;</a></li>
-                {%else %}        
+                <li class="nav-item-active"><a class="nav_link" href="/changePassword">Change Password&nbsp;</a></li>
+                {%else %}      
                 <li class="nav-item-active"><a class="nav_link" href="/register">Register&nbsp;</a></li>
                 <li class="nav-item-active"><a class="nav_link" href="/login">Login&nbsp;</a></li>
             {% endif %}
