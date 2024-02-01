@@ -8,13 +8,20 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
 
 # Create your views here.
 
+def some_view(request):
+    if not request.user.is_authenticated:
+        return HttpResponse("You are not logged in")
+    else:
+        return HttpResponse("You are logged in")
+
+@login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('../')
